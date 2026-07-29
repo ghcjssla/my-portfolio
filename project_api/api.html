@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>실시간 날씨 대시보드</title>
+  <style>
+    /* 1. 웹 브라우저의 기본 여백을 없애고 다크 테마 배경 적용 */
+    body {
+      background-color: #121214;
+      color: #e1e1e6;
+      font-family: sans-serif;
+      text-align: center;
+      padding-top: 50px;
+    }
+    
+    /* 2. 날씨 카드 UI 스타일링 */
+    .weather-card {
+      background-color: #202024;
+      border-radius: 12px;
+      padding: 20px;
+      max-width: 300px;
+      margin: 0 auto; /* 가로 중앙 정렬 */
+      border-left: 6px solid #00d4ff; /* 포인트 강조선 */
+    }
+  </style>
+</head>
+<body>
+  <h1>📍 실시간 날씨 대시보드</h1>
+  
+  <div class="weather-card">
+    <h3>광주(전남대) 날씨</h3>
+    <p>현재 기온: <span id="temp">조회 중...</span></p>
+  </div>
+
+  <script>
+    const apiUrl = 'https://api.open-meteo.com/v1/forecast?latitude=35.1768&longitude=126.9061&current=temperature_2m';
+    fetch(apiUrl)
+      .then(response => response.json()) // JSON 형태로 응답 데이터 변환
+      .then(data => {
+        const temp = data.current.temperature_2m;
+        document.getElementById('temp').textContent = `${temp}°C`; // 화면에 기온 출력
+      })
+      .catch(err => {
+        console.error("날씨 정보 로드 실패:", err);
+        document.getElementById('temp').textContent = "오류 발생";
+      });
+  </script>
+</body>
+</html>
